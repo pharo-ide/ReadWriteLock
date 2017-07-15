@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "DenisKudryashov 1/29/2016 13:42",
+	"super" : "Object",
+	"category" : "ReadWriteLock",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"currentReaders",
+		"readLock",
+		"writeLock"
+	],
+	"name" : "ReadWriteLock",
+	"type" : "normal"
+}

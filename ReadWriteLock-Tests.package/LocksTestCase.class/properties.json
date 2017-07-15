@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "",
+	"super" : "TestCase",
+	"category" : "ReadWriteLock-Tests",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"forkedProcesses"
+	],
+	"name" : "LocksTestCase",
+	"type" : "normal"
+}
