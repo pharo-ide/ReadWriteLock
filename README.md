@@ -4,7 +4,20 @@ It's implementation of reentral read write lock which described in
 
 > A ReadWriteLock allows concurrent access for read-only operations, while write operations require exclusive access. This means that multiple threads can read the data in parallel but an exclusive lock is needed for writing or modifying data. When a writer is writing the data, all other writers or readers will be blocked until the writer is finished writing.
 
-Public API and Key Messages:
+## Installation
+```Smalltalk
+Metacello new
+  baseline: 'ReadWriteLock';
+  repository: 'github://dionisiydk/ReadWriteLock';
+  load
+```
+Use following snippet for stable dependency in your project baseline:
+```Smalltalk
+spec
+    baseline: 'ReadWriteLock'
+    with: [ spec repository: 'github://dionisiydk/ReadWriteLock:v0.2.x' ]
+```
+## Public API and Key Messages:
 ```Smalltalk
 lock := ReadWriteLock new.
 lock criticalRead: ["read code"].
