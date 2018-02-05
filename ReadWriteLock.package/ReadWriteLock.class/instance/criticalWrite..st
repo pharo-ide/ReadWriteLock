@@ -7,7 +7,7 @@ criticalWrite: aBlock
 	Given block is safe for recursive read/write sections
 "
 	| lockAcquiredNotHere |
-	<lockAt: #writeLock tracksStateAt: 1>
+	<lockAt: #writeLock tracksStateAt: #lockAcquiredNotHere>
 	
 	lockAcquiredNotHere := true.
 	

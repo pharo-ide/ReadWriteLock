@@ -1,20 +1,28 @@
 tests
 testTerminatingReadWhichWaitingWriteAndAnotherRead
 
-	| lastReadExecutedAfterWrite lastReaderExecuted secondReaderExecuted secondReader |
+	| lastReadExecutedAfterWrite lastReaderExecuted secondReaderExecuted secondReader syncSemaphore writeSemaphore |
 	lastReadExecutedAfterWrite := false.
 	secondReaderExecuted := false.
 	lastReaderExecuted := false.
-
+	syncSemaphore := Semaphore new.
+	writeSemaphore := Semaphore new.
 	self fork: [
-		lock criticalWrite: [ 10 milliSeconds wait. 
+		lock criticalWrite: [ syncSemaphore signal. writeSemaphore wait. 
 			lastReadExecutedAfterWrite := lastReaderExecuted not ]
 	].	
+	syncSemaphore wait.
 	secondReader := self fork: [lock criticalRead: [ secondReaderExecuted := true ]].	
 	self fork: [lock criticalRead: [ lastReaderExecuted := true ]].
-	10 milliSeconds wait.
+	
+	self passForkedProcesses.
+	lastReaderExecuted should be: false.
 	secondReader terminate.
-	15 milliSeconds wait.	
+	
+	self passForkedProcesses. "Now last read should be still locked"
+	lastReaderExecuted should be: false.
+	writeSemaphore signal.
+	self waitForkedProcesses.
 	lastReaderExecuted should be: true.
 	secondReaderExecuted should be: false.
 	lastReadExecutedAfterWrite should be: true

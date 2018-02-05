@@ -6,7 +6,7 @@ testFailedWriteShouldUnblockRead
 		[lock criticalWrite: [ 10 milliSeconds wait. self error: 'failed write']] ifError: [  ]
 	].	
 	self fork: [lock criticalRead: [ executed := true ]].
-	15 milliSeconds wait.
+	self waitForkedProcesses.
 	
 	executed should be: true
 	
