@@ -7,18 +7,15 @@ This method called from Process>>terminate when it detects waiting me. My users 
 		ensure: [ releaseNotRequired ifFalse: [ lock release ] ]
 This code is not working correctly by itself. When current process waits on 'lock acquire' somebody can terminate it and ensure will release me which shoud not happens in this case. But if I was acquired but process is just suspended on 'lock acquire' then process termination should execute ensure block to release me.  
 This problem solved by this special method. Process>>terminate detects first case and inject right value for tracking variable.  Senders should mark method with special pragma 
-<lockAt: #lockVariableName tracksStateAt: 1> 'index of local variable'
-Method can contain mulpible pragmas for referenced locks. (ReadWriteLock for example needs this).
-"
-	| receiver lockFlagIndex |
+<lockAt: #lockVariableName tracksStateAt: #tempName> 'var name which keeps the lock state'
+Method can contain multiple pragmas for referenced locks. (ReadWriteLock for example needs this)"
+	| receiver |
 	receiver := suspendedContext receiver.
 	
-	suspendedContext method pragmas do: [ :pragma | 
-		
+	suspendedContext method pragmas do: [ :pragma | 		
 		pragma keyword == #lockAt:tracksStateAt: ifTrue: [ 
 			(receiver readSlotNamed: pragma arguments first) == self ifTrue: [ 
-				lockFlagIndex := pragma arguments last.
-				suspendedContext home namedTempAt: lockFlagIndex put: true
+				self resetLockFlag: pragma arguments last in: suspendedContext home.
 			 ]
 		]
 	 ].

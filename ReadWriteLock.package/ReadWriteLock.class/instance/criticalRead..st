@@ -7,8 +7,8 @@ criticalRead: aBlock
 	Given block is safe for recursive read/write sections
 "
 	| readLockAcquiredNotHere newReadersCount  writeLockAcquiredNotHere readingPrepared writeLockWasAsked |
-	<lockAt: #readLock tracksStateAt: 1>
-	<lockAt: #writeLock tracksStateAt: 3>
+	<lockAt: #readLock tracksStateAt: #readLockAcquiredNotHere>
+	<lockAt: #writeLock tracksStateAt: #writeLockAcquiredNotHere>
 		
 	readLockAcquiredNotHere := true.
 	writeLockAcquiredNotHere := true.
@@ -26,9 +26,10 @@ criticalRead: aBlock
 	readingPrepared := true.
 	readLockAcquiredNotHere := true.
 	readLock release] ifCurtailed: [
+
 		newReadersCount ifNotNil: [ currentReaders := newReadersCount - 1 ]. "we should restore previous value because we can't prepare reading (process was terminated)"
 		readLockAcquiredNotHere ifFalse: [readLock release].
-		writeLockAcquiredNotHere ifFalse: [ writeLock release]].		
+		writeLockAcquiredNotHere ifFalse: [writeLock release]].		
 	^aBlock value] ensure: [ 
 		readingPrepared ifTrue: [ 
 			readLock acquire.

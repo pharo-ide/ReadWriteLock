@@ -18,6 +18,9 @@ testTerminatingReadWhichWaitingWriteAndAnotherRead
 	self passForkedProcesses.
 	lastReaderExecuted should be: false.
 	secondReader terminate.
+	
+	self passForkedProcesses. "Now last read should be still locked"
+	lastReaderExecuted should be: false.
 	writeSemaphore signal.
 	self waitForkedProcesses.
 	lastReaderExecuted should be: true.
