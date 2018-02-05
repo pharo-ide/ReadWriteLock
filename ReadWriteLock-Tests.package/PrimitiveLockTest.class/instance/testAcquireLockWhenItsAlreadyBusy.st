@@ -1,11 +1,15 @@
 tests
 testAcquireLockWhenItsAlreadyBusy
 
-	| lastLockAcquired |
+	| lastLockAcquired syncSemaphore lockSemaphore |
 	lastLockAcquired := false.
-	self fork: [ lock acquire. 10 seconds wait. ].
+	syncSemaphore := Semaphore new.
+	lockSemaphore := Semaphore new.
+	self fork: [ lock acquire. syncSemaphore signal. lockSemaphore wait. ].
+	syncSemaphore wait.
 	self fork: [ lock acquire. lastLockAcquired := true ].
-	10 milliSeconds wait.
+	self passForkedProcesses.
+	lockSemaphore signal.
 	
 	self deny: lastLockAcquired
 	

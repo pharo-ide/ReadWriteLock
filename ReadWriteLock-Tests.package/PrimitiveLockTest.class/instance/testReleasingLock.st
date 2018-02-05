@@ -1,11 +1,15 @@
 tests
 testReleasingLock
 
-	| lastExecuted |
+	| lastExecuted syncSemaphore lockSemaphore |
 	lastExecuted := false.
-	self fork: [ lock acquire. 10 seconds wait].
+	syncSemaphore := Semaphore new.
+	lockSemaphore := Semaphore new.
+
+	self fork: [ lock acquire. syncSemaphore signal. lockSemaphore wait].
 	self fork: [ lock acquire. lastExecuted := true].
-	10 milliSeconds wait.
+	syncSemaphore wait.
+	self passForkedProcesses.
 	lock release.	
 	self waitLastProcessFinished.
 	self assert: lastExecuted
