@@ -12,7 +12,7 @@ testWriteShouldWaitTwoRecursiveReadWriteInSameProcess
 		].
 	].
 	self fork: [ lock criticalWrite: [ lastWriteExecuted := true ] ].
-	15 milliSeconds wait.
+	self waitForkedProcesses.
 	
 	lastWriteExecuted should be: true.
 	lastWriteExecutedAfterRecursiveWriteRead should be: true

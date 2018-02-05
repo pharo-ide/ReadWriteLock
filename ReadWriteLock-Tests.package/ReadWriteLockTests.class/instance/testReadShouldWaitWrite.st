@@ -10,7 +10,7 @@ testReadShouldWaitWrite
 			readExecutedAfterWrite := readExecuted not]
 	].	
 	self fork: [lock criticalRead: [ readExecuted := true ]].
-	15 milliSeconds wait.
+	self waitForkedProcesses.
 	
 	readExecuted should be: true.
 	readExecutedAfterWrite should be: true.

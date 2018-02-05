@@ -1,20 +1,25 @@
 tests
 testTerminatingWriteWhichWaitingAnotherTwoWrites
 
-	| lastWriteExecutedAfterFirst lastWriteExecuted secondWriteExecuted secondWriter |
+	| lastWriteExecutedAfterFirst lastWriteExecuted secondWriteExecuted secondWriter syncSemaphore writeSemaphore |
 	lastWriteExecutedAfterFirst := false.
 	secondWriteExecuted := false.
 	lastWriteExecuted := false.
-
+	syncSemaphore := Semaphore new.
+	writeSemaphore := Semaphore new.
 	self fork: [
-		lock criticalWrite: [ 10 milliSeconds wait. 
+		lock criticalWrite: [ syncSemaphore signal. writeSemaphore wait.
 			lastWriteExecutedAfterFirst := lastWriteExecuted not ]
 	].	
+	syncSemaphore wait.
 	secondWriter := self fork: [lock criticalWrite: [ secondWriteExecuted := true ]].	
 	self fork: [lock criticalWrite: [ lastWriteExecuted := true ]].
-	5 milliSeconds wait.
+	
+	self passForkedProcesses.
+	lastWriteExecuted should be: false.
 	secondWriter terminate.
-	15 milliSeconds wait.	
+	writeSemaphore signal.	
+	self waitForkedProcesses.
 	lastWriteExecuted should be: true.
 	secondWriteExecuted should be: false.
 	lastWriteExecutedAfterFirst should be: true

@@ -7,6 +7,6 @@ testRecursiveWriteAndReadInsideSameProcess
 			lock criticalRead: [executed := true]
 		].
 	].
-	15 milliSeconds wait.
+	self waitForkedProcesses.
 	
 	executed should be: true

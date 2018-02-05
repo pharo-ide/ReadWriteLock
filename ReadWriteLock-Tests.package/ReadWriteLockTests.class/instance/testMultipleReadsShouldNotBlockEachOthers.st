@@ -10,7 +10,7 @@ testMultipleReadsShouldNotBlockEachOthers
 			firstReadExecutedAfterLast := lastReadExecuted]
 	].	
 	self fork: [lock criticalRead: [ lastReadExecuted := true ]].
-	15 milliSeconds wait.
+	self waitForkedProcesses.
 	
 	lastReadExecuted should be: true.
 	firstReadExecutedAfterLast should be: true

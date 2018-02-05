@@ -12,7 +12,7 @@ testReadShouldWaitTwoRecursiveWritesInSameProcess
 		].
 	].
 	self fork: [ lock criticalRead: [ readExecuted := true ] ].
-	15 milliSeconds wait.
+	self waitForkedProcesses.
 	
 	readExecuted should be: true.
 	readExecutedAfterWrites should be: true
