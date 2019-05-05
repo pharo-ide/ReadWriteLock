@@ -1,5 +1,5 @@
 # ReadWriteLock
-[![Build Status](https://travis-ci.org/dionisiydk/ReadWriteLock.svg?branch=master)](https://travis-ci.org/dionisiydk/ReadWriteLock)
+[![Build Status](https://travis-ci.org/pharo-ide/ReadWriteLock.svg?branch=master)](https://travis-ci.org/pharo-ide/ReadWriteLock)
 
 It's implementation of reentral read write lock which described in 
 [https://en.wikipedia.org/wiki/Readers–writer_lock](). From the article:
