@@ -16,10 +16,10 @@ testTerminatingWriteWhichWaitingAnotherTwoWrites
 	self fork: [lock criticalWrite: [ lastWriteExecuted := true ]].
 	
 	self passForkedProcesses.
-	lastWriteExecuted should be: false.
+	self deny: lastWriteExecuted.
 	secondWriter terminate.
 	writeSemaphore signal.	
 	self waitForkedProcesses.
-	lastWriteExecuted should be: true.
-	secondWriteExecuted should be: false.
-	lastWriteExecutedAfterFirst should be: true
+	self assert: lastWriteExecuted.
+	self deny: secondWriteExecuted.
+	self assert: lastWriteExecutedAfterFirst

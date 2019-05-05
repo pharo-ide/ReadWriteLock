@@ -4,4 +4,4 @@ testCriticalRead
 	| actual |
 	actual := lock criticalRead: [ #result].
 	
-	actual should be: #result
+	self assert: actual equals: #result

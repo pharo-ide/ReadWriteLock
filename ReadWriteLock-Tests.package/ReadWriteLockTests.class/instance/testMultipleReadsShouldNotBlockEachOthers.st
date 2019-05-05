@@ -12,5 +12,5 @@ testMultipleReadsShouldNotBlockEachOthers
 	self fork: [lock criticalRead: [ lastReadExecuted := true ]].
 	self waitForkedProcesses.
 	
-	lastReadExecuted should be: true.
-	firstReadExecutedAfterLast should be: true
+	self assert: lastReadExecuted.
+	self assert: firstReadExecutedAfterLast

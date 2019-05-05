@@ -16,13 +16,13 @@ testTerminatingReadWhichWaitingWriteAndAnotherRead
 	self fork: [lock criticalRead: [ lastReaderExecuted := true ]].
 	
 	self passForkedProcesses.
-	lastReaderExecuted should be: false.
+	self deny: lastReaderExecuted.
 	secondReader terminate.
 	
 	self passForkedProcesses. "Now last read should be still locked"
-	lastReaderExecuted should be: false.
+	self deny: lastReaderExecuted.
 	writeSemaphore signal.
 	self waitForkedProcesses.
-	lastReaderExecuted should be: true.
-	secondReaderExecuted should be: false.
-	lastReadExecutedAfterWrite should be: true
+	self assert: lastReaderExecuted.
+	self deny: secondReaderExecuted.
+	self assert: lastReadExecutedAfterWrite

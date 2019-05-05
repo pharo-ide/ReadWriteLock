@@ -4,4 +4,4 @@ testCriticalWrite
 	| actual |
 	actual := lock criticalWrite: [ #result].
 	
-	actual should be: #result
+	self assert: actual equals: #result

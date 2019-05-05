@@ -12,7 +12,7 @@ testWriteShouldWaitRead
 	self fork: [lock criticalWrite: [ writeExecuted := true ]].
 	self waitForkedProcesses.
 	
-	writeExecuted should be: true.
-	writeExecutedAfterRead should be: true.
+	self assert: writeExecuted.
+	self assert: writeExecutedAfterRead
 	
 	

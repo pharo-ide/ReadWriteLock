@@ -9,4 +9,4 @@ testRecursiveWritesInsideSameProcess
 	].
 	self waitForkedProcesses.
 	
-	executed should be: true
+	self assert: executed

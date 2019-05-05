@@ -12,7 +12,7 @@ testMultipleWritesShouldWaitEachOther
 	self fork: [lock criticalWrite: [ lastWriteExecuted := true ]].
 	self waitForkedProcesses.
 	
-	lastWriteExecuted should be: true.
-	lastWriteExecutedAfterFirst should be: true.
+	self assert: lastWriteExecuted.
+	self assert: lastWriteExecutedAfterFirst
 	
 	

@@ -14,5 +14,5 @@ testReadShouldWaitTwoRecursiveWritesInSameProcess
 	self fork: [ lock criticalRead: [ readExecuted := true ] ].
 	self waitForkedProcesses.
 	
-	readExecuted should be: true.
-	readExecutedAfterWrites should be: true
+	self assert: readExecuted.
+	self assert: readExecutedAfterWrites

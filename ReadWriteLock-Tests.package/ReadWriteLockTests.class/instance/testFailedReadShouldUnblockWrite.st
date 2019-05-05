@@ -8,6 +8,4 @@ testFailedReadShouldUnblockWrite
 	self fork: [lock criticalWrite: [ executed := true ]].
 	self waitForkedProcesses.
 	
-	executed should be: true
-	
-	
+	self assert: executed
