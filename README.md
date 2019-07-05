@@ -10,14 +10,14 @@ It's implementation of reentral read write lock which described in
 ```Smalltalk
 Metacello new
   baseline: 'ReadWriteLock';
-  repository: 'github://dionisiydk/ReadWriteLock';
+  repository: 'github://pharo-ide/ReadWriteLock';
   load
 ```
 Use following snippet for stable dependency in your project baseline:
 ```Smalltalk
 spec
     baseline: 'ReadWriteLock'
-    with: [ spec repository: 'github://dionisiydk/ReadWriteLock:v0.2.x' ]
+    with: [ spec repository: 'github://pharo-ide/ReadWriteLock:v1.0.0' ]
 ```
 ## Public API and Key Messages:
 ```Smalltalk
