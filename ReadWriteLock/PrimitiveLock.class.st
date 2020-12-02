@@ -43,7 +43,7 @@ Class {
 	#instVars : [
 		'owningProcess'
 	],
-	#category : 'ReadWriteLock'
+	#category : #ReadWriteLock
 }
 
 { #category : #controlling }
@@ -75,9 +75,8 @@ This problem solved by this special method. Process>>terminate detects first cas
 Method can contain multiple pragmas for referenced locks. (ReadWriteLock for example needs this)"
 	| receiver |
 	receiver := suspendedContext receiver.
-	
-	suspendedContext method pragmas do: [ :pragma | 		
-		pragma keyword == #lockAt:tracksStateAt: ifTrue: [ 
+	suspendedContext home method pragmas do: [ :pragma | 		
+		pragma selector == #lockAt:tracksStateAt: ifTrue: [ 
 			(receiver readSlotNamed: pragma arguments first) == self ifTrue: [ 
 				self resetLockFlag: pragma arguments last in: suspendedContext home.
 			 ]

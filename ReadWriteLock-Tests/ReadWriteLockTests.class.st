@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'lock'
 	],
-	#category : 'ReadWriteLock-Tests'
+	#category : #'ReadWriteLock-Tests'
 }
 
 { #category : #running }
