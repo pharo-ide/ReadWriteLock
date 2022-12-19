@@ -25,7 +25,7 @@ Use following snippet for stable dependency in your project baseline:
 ```Smalltalk
 spec
     baseline: 'ReadWriteLock'
-    with: [ spec repository: 'github://pharo-ide/ReadWriteLock:v1.0.0' ]
+    with: [ spec repository: 'github://pharo-ide/ReadWriteLock:v3.0.0' ]
 ```
 ## Public API and Key Messages:
 ```Smalltalk
