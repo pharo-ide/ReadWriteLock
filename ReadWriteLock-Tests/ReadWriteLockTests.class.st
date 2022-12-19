@@ -36,10 +36,10 @@ ReadWriteLockTests >> testCriticalWrite [
 ReadWriteLockTests >> testFailedReadShouldUnblockWrite [
 	
 	| executed |
-	(BlockClosure canUnderstand: #onErrorDo:) "Fix to Pharo 7/8/9"
-		ifTrue: [ self fork: [ [lock criticalRead: [ 10 milliSeconds wait. self error: 'failed read']] onErrorDo: [:ignore |  ] ] ]
-		ifFalse: [ self fork: [ [lock criticalRead: [ 10 milliSeconds wait. self error: 'failed read']] ifError: [  ] ] ].
-	
+	self fork: [
+		[lock criticalRead: [ 10 milliSeconds wait. self error: 'failed read']] onErrorDo: [  ]
+	].	
+
 	self fork: [lock criticalWrite: [ executed := true ]].
 	self waitForkedProcesses.
 	
@@ -50,10 +50,10 @@ ReadWriteLockTests >> testFailedReadShouldUnblockWrite [
 ReadWriteLockTests >> testFailedWriteShouldUnblockRead [
 	
 	| executed |
-	(BlockClosure canUnderstand: #onErrorDo:) "Fix to Pharo 7/8/9"
-		ifTrue: [ self fork: [ [lock criticalWrite: [ 10 milliSeconds wait. self error: 'failed write']] onErrorDo: [:ignore |  ]	].	 ]
-		ifFalse: [ self fork: [ [lock criticalWrite: [ 10 milliSeconds wait. self error: 'failed write']] ifError: [  ]	].	 ].
-		
+	self fork: [
+		[lock criticalWrite: [ 10 milliSeconds wait. self error: 'failed write']] onErrorDo: [  ]
+	].	
+
 	self fork: [lock criticalRead: [ executed := true ]].
 	self waitForkedProcesses.
 	
