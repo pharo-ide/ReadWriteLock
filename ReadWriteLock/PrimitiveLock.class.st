@@ -43,7 +43,7 @@ Class {
 	#instVars : [
 		'owningProcess'
 	],
-	#category : 'ReadWriteLock'
+	#category : #ReadWriteLock
 }
 
 { #category : #controlling }
@@ -76,8 +76,8 @@ Method can contain multiple pragmas for referenced locks. (ReadWriteLock for exa
 	| receiver |
 	receiver := suspendedContext receiver.
 	
-	suspendedContext method pragmas do: [ :pragma | 		
-		pragma keyword == #lockAt:tracksStateAt: ifTrue: [ 
+	suspendedContext home method pragmas do: [ :pragma | 		
+		pragma selector == #lockAt:tracksStateAt: ifTrue: [ 
 			(receiver readSlotNamed: pragma arguments first) == self ifTrue: [ 
 				self resetLockFlag: pragma arguments last in: suspendedContext home.
 			 ]
@@ -130,7 +130,7 @@ PrimitiveLock >> release [
 { #category : #'process termination handling' }
 PrimitiveLock >> resetLockFlag: flagTempName in: criticalContext [
 	
-	criticalContext debuggerMap tempNamed: flagTempName in: criticalContext put: true
+	criticalContext tempNamed: flagTempName put: true
 ]
 
 { #category : #controlling }
