@@ -39,6 +39,7 @@ ReadWriteLockTests >> testFailedReadShouldUnblockWrite [
 	self fork: [
 		[lock criticalRead: [ 10 milliSeconds wait. self error: 'failed read']] onErrorDo: [  ]
 	].	
+
 	self fork: [lock criticalWrite: [ executed := true ]].
 	self waitForkedProcesses.
 	
@@ -52,6 +53,7 @@ ReadWriteLockTests >> testFailedWriteShouldUnblockRead [
 	self fork: [
 		[lock criticalWrite: [ 10 milliSeconds wait. self error: 'failed write']] onErrorDo: [  ]
 	].	
+
 	self fork: [lock criticalRead: [ executed := true ]].
 	self waitForkedProcesses.
 	

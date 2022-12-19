@@ -75,7 +75,7 @@ This problem solved by this special method. Process>>terminate detects first cas
 Method can contain multiple pragmas for referenced locks. (ReadWriteLock for example needs this)"
 	| receiver |
 	receiver := suspendedContext receiver.
-	
+
 	suspendedContext home method pragmas do: [ :pragma | 		
 		pragma selector == #lockAt:tracksStateAt: ifTrue: [ 
 			(receiver readSlotNamed: pragma arguments first) == self ifTrue: [ 
