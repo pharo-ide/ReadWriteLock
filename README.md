@@ -10,7 +10,7 @@
 [![Pharo 11](https://img.shields.io/badge/Pharo-11-informational)](https://pharo.org)
 
 It's implementation of reentral read write lock which described in 
-[https://en.wikipedia.org/wiki/Readers–writer_lock](). From the article:
+[https://en.wikipedia.org/wiki/Readers–writer_lock](https://en.wikipedia.org/wiki/Readers–writer_lock). From the article:
 
 > A ReadWriteLock allows concurrent access for read-only operations, while write operations require exclusive access. This means that multiple threads can read the data in parallel but an exclusive lock is needed for writing or modifying data. When a writer is writing the data, all other writers or readers will be blocked until the writer is finished writing.
 
